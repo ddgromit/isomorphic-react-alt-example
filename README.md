@@ -34,3 +34,10 @@ Here's an example of an isomorphic single page app that's compiled with webpack,
     │   └── index.jade
     └── webserver.js
 ```
+
+## TODO
+
+- [ ] Pass state down
+- [ ] Use alt for managing state
+- [ ] Get hot dev server working
+- [ ] Deployment
