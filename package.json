@@ -1,0 +1,24 @@
+{
+  "name": "isomorphic-react-alt",
+  "version": "0.0.0",
+  "description": "Fun project to learn isomorphism with react and alt",
+  "scripts": {
+    "server": "node start_webserver.js",
+    "build": "webpack --config config/webpack.config.js --progress --profile --colors",
+    "watch": "webpack -w --config config/webpack.config.js --progress --profile --colors"
+  },
+  "author": "Derek Dahmer",
+  "dependencies": {
+    "alt": "^0.16.5",
+    "axios": "^0.5.4",
+    "babel": "^5.4.7",
+    "babel-core": "^5.4.7",
+    "babel-loader": "^5.1.3",
+    "express": "^4.12.4",
+    "jade": "^1.10.0",
+    "node-libs-browser": "^0.5.2",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3",
+    "webpack": "^1.9.10"
+  }
+}
