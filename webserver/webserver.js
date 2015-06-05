@@ -6,7 +6,8 @@
 import express from 'express';
 import path from 'path';
 import React from 'react';
-import Counter from '../app/components/Counter';
+import MainApp from '../app/components/MainApp';
+import Iso from 'iso';
 
 let webapp = express();
 webapp.set('view engine', 'jade');
@@ -18,12 +19,22 @@ webapp.use(express.static(path.join(__dirname, '../build')));
 
 // Catch all URLs with express. React will do the actual decision making.
 webapp.get('*', function (req, res) {
+  let state = {
+    count: 3
+  };
+
   // Turn our app into a string
-  let mainComponent = React.createElement(Counter);
-  let reactHtml = React.renderToString(mainComponent);
+  let mainComponent = React.createElement(MainApp);
+  let reactHtml = React.renderToString(<MainApp initialCount={ state.count } />);
+
+  // Iso packages up rendered HTML with your state data and lets you
+  // unpackage them you are starting up the client.
+  let iso = new Iso();
+  iso.add(reactHtml, state);
+  let outputHtml = iso.render();
 
   // Spit it out into the index.jade template.
-  res.render('index', { content: reactHtml });
+  res.render('index', { content: outputHtml });
 })
 
 var server = webapp.listen(3000, function() {
