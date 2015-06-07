@@ -1,19 +1,14 @@
 import React from 'react';
 import Counter from './Counter';
 import IncrementButton from './IncrementButton';
+import fetchCount from '../fetchers/CountFetcher';
 
 export default class MainApp extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      count: 1
+      count: props.initialCount
     }
-  }
-
-  componentWillMount() {
-    this.setState({
-      count: this.props.initialCount
-    });
   }
 
   handleIncrement() {

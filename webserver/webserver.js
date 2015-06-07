@@ -8,6 +8,7 @@ import path from 'path';
 import React from 'react';
 import MainApp from '../app/components/MainApp';
 import Iso from 'iso';
+import fetchCount from '../app/fetchers/CountFetcher';
 
 let webapp = express();
 webapp.set('view engine', 'jade');
@@ -19,22 +20,24 @@ webapp.use(express.static(path.join(__dirname, '../build')));
 
 // Catch all URLs with express. React will do the actual decision making.
 webapp.get('*', function (req, res) {
-  let state = {
-    count: 3
-  };
+  fetchCount().then((count) => {
+    let state = {
+      count: count
+    }
 
-  // Turn our app into a string
-  let mainComponent = React.createElement(MainApp);
-  let reactHtml = React.renderToString(<MainApp initialCount={ state.count } />);
+    // Turn our app into a string
+    let mainComponent = React.createElement(MainApp);
+    let reactHtml = React.renderToString(<MainApp initialCount={ state.count } />);
 
-  // Iso packages up rendered HTML with your state data and lets you
-  // unpackage them you are starting up the client.
-  let iso = new Iso();
-  iso.add(reactHtml, state);
-  let outputHtml = iso.render();
+    // Iso packages up rendered HTML with your state data and lets you
+    // unpackage them you are starting up the client.
+    let iso = new Iso();
+    iso.add(reactHtml, state);
+    let outputHtml = iso.render();
 
-  // Spit it out into the index.jade template.
-  res.render('index', { content: outputHtml });
+    // Spit it out into the index.jade template.
+    res.render('index', { content: outputHtml });
+  }).catch(console.log.bind(this));
 })
 
 var server = webapp.listen(3000, function() {
