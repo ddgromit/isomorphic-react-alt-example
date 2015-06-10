@@ -2,13 +2,12 @@ import React from 'react';
 import Counter from './Counter';
 import IncrementButton from './IncrementButton';
 import fetchCount from '../fetchers/CountFetcher';
+import CountStore from '../stores/CountStore';
 
 export default class MainApp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      count: props.initialCount
-    }
+    this.state = CountStore.getState();
   }
 
   handleIncrement() {

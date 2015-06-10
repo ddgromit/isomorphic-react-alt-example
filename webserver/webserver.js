@@ -9,6 +9,7 @@ import React from 'react';
 import MainApp from '../app/components/MainApp';
 import Iso from 'iso';
 import fetchCount from '../app/fetchers/CountFetcher';
+import alt from '../app/alt';
 
 let webapp = express();
 webapp.set('view engine', 'jade');
@@ -21,18 +22,25 @@ webapp.use(express.static(path.join(__dirname, '../build')));
 // Catch all URLs with express. React will do the actual decision making.
 webapp.get('*', function (req, res) {
   fetchCount().then((count) => {
+    // Data specific to this page
     let state = {
-      count: count
+      CountStore: {
+        count: count
+      }
     }
 
-    // Turn our app into a string
-    let mainComponent = React.createElement(MainApp);
-    let reactHtml = React.renderToString(<MainApp initialCount={ state.count } />);
+    // Render our app into a string
+    alt.bootstrap(JSON.stringify(state));
+    let reactHtml = React.renderToString(<MainApp />);
+
+    // flush() both stringifies the data in all alt stores, and resets the
+    // stores so future requests won't get conflicting data
+    let bootstrapData = alt.flush();
 
     // Iso packages up rendered HTML with your state data and lets you
     // unpackage them you are starting up the client.
     let iso = new Iso();
-    iso.add(reactHtml, state);
+    iso.add(reactHtml, bootstrapData);
     let outputHtml = iso.render();
 
     // Spit it out into the index.jade template.
