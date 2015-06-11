@@ -10,6 +10,8 @@ import MainApp from '../app/components/MainApp';
 import Iso from 'iso';
 import fetchCount from '../app/fetchers/CountFetcher';
 import alt from '../app/alt';
+import Router from 'react-router';
+import routes from '../app/routes';
 
 let webapp = express();
 webapp.set('view engine', 'jade');
@@ -21,30 +23,35 @@ webapp.use(express.static(path.join(__dirname, '../build')));
 
 // Catch all URLs with express. React will do the actual decision making.
 webapp.get('*', function (req, res) {
+
   fetchCount().then((count) => {
-    // Data specific to this page
-    let state = {
-      CountStore: {
-        count: count
+
+    Router.run(routes, req.url, function(Handler) {
+      // Data specific to this page
+      let state = {
+        CountStore: {
+          count: count
+        }
       }
-    }
 
-    // Render our app into a string
-    alt.bootstrap(JSON.stringify(state));
-    let reactHtml = React.renderToString(<MainApp />);
+      // Render our app into a string
+      alt.bootstrap(JSON.stringify(state));
+      let reactHtml = React.renderToString(<Handler />);
 
-    // flush() both stringifies the data in all alt stores, and resets the
-    // stores so future requests won't get conflicting data
-    let bootstrapData = alt.flush();
+      // flush() both stringifies the data in all alt stores, and resets the
+      // stores so future requests won't get conflicting data
+      let bootstrapData = alt.flush();
 
-    // Iso packages up rendered HTML with your state data and lets you
-    // unpackage them you are starting up the client.
-    let iso = new Iso();
-    iso.add(reactHtml, bootstrapData);
-    let outputHtml = iso.render();
+      // Iso packages up rendered HTML with your state data and lets you
+      // unpackage them you are starting up the client.
+      let iso = new Iso();
+      iso.add(reactHtml, bootstrapData);
+      let outputHtml = iso.render();
 
-    // Spit it out into the index.jade template.
-    res.render('index', { content: outputHtml });
+      // Spit it out into the index.jade template.
+      res.render('index', { content: outputHtml });
+
+    });
   }).catch(console.log.bind(this));
 })
 
