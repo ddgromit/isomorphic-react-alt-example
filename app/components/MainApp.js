@@ -10,6 +10,8 @@ export default class MainApp extends React.Component {
         <Link to="home">Home</Link>
         <br />
         <Link to="counter">Counter</Link>
+        <br />
+        <Link to="weather">Weather</Link>
         <hr />
         <RouteHandler />
       </div>
