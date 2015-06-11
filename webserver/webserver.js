@@ -23,6 +23,7 @@ webapp.use(express.static(path.join(__dirname, '../build')));
 
 // Catch all URLs with express. React will do the actual decision making.
 webapp.get('*', function (req, res) {
+  console.log(`GET ${req.url}`);
 
   fetchCount().then((count) => {
 

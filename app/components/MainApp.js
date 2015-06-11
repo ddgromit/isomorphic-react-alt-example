@@ -1,14 +1,17 @@
 import React from 'react';
 import CounterPage from './CounterPage';
-import Router from 'react-router';
+import {RouteHandler, Link} from 'react-router';
 
 export default class MainApp extends React.Component {
   render() {
     return (
       <div>
         <h1>Isomorphic App</h1>
+        <Link to="home">Home</Link>
+        <br />
+        <Link to="counter">Counter</Link>
         <hr />
-        <Router.RouteHandler />
+        <RouteHandler />
       </div>
     );
   }
