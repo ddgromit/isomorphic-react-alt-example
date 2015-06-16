@@ -9,6 +9,7 @@ import React from 'react';
 import MainApp from '../app/components/MainApp';
 import Iso from 'iso';
 import fetchCount from '../app/fetchers/CountFetcher';
+import fetchWeather from '../app/fetchers/WeatherFetcher';
 import alt from '../app/alt';
 import Router from 'react-router';
 import routes from '../app/routes';
@@ -22,16 +23,19 @@ webapp.set('views', path.join(path.dirname(__filename), './templates'));
 webapp.use(express.static(path.join(__dirname, '../build')));
 
 // Catch all URLs with express. React will do the actual decision making.
-webapp.get('*', function (req, res) {
+webapp.get('*', function (req, res, next) {
   console.log(`GET ${req.url}`);
 
-  fetchCount().then((count) => {
+  Promise.all([fetchCount(),fetchWeather(94110)]).then(([count, temp]) => {
 
     Router.run(routes, req.url, function(Handler) {
       // Data specific to this page
       let state = {
         CountStore: {
           count: count
+        },
+        WeatherStore: {
+          temp: temp
         }
       }
 
@@ -53,7 +57,7 @@ webapp.get('*', function (req, res) {
       res.render('index', { content: outputHtml });
 
     });
-  }).catch(console.log.bind(this));
+  }).catch(next); // Pass errors to express
 })
 
 var server = webapp.listen(3000, function() {

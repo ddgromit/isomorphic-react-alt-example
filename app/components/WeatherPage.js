@@ -1,30 +1,41 @@
 import React from 'react';
+
 import TemperatureGauge from './TemperatureGauge';
 import fetchTemperature from '../fetchers/WeatherFetcher';
 import ErrorBar from './ErrorBar';
+
+import WeatherStore from '../stores/WeatherStore';
+import WeatherActions from '../actions/WeatherActions';
 
 export default class WeatherPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      temp: 96,
       error: null
-    }
+    };
+  }
+  componentWillMount() {
+    this.setState(WeatherStore.getState());
   }
 
   componentDidMount() {
-    fetchTemperature(94110).then((temp) => {
-      this.setState({
-        temp: temp,
-        error: null
-      });
-    }).catch(() => {
-      console.log('Error fetching weather');
-      this.setState({
-        error: 'Error fetching weather'
-      });
-    });
+    // TODO: this is clearly the wrong way to load this.  Move to
+    // data sources.
+    // Reasons:
+    // - ideal spot is componentWillMount, but then the server will
+    //   try to call it.  componentDidMount is too late in the lifecycle
+    WeatherStore.listen(this.onWeatherData.bind(this));
+    WeatherActions.requestTemperature(94110);
   }
+
+  componentWillUnmount() {
+    WeatherStore.unlisten(this.onWeatherData.bind(this));
+  }
+
+  onWeatherData(data) {
+    this.setState(data);
+  }
+
 
   render() {
     return (
