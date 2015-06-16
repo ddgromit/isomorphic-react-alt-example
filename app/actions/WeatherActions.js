@@ -1,16 +1,18 @@
 import alt from '../alt';
 import fetchTemperature from '../fetchers/WeatherFetcher';
+import WeatherStore from '../stores/WeatherStore';
 
 class WeatherActions {
   constructor() {
-    this.generateActions('loadTemperature');
+    this.generateActions(
+      'loadTemperature',
+      'temperatureError',
+      'loadingTemperature'
+    );
   }
 
   requestTemperature(zip) {
-    console.log('requesting temperature');
-    fetchTemperature(zip).then((temp) => {
-      this.actions.loadTemperature(temp);
-    }).catch(console.log.bind(this));
+    WeatherStore.getTemperature(zip);
   }
 }
 
