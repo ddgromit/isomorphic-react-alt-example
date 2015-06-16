@@ -14,6 +14,13 @@ module.exports = {
   },
 
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint'
+      }
+    ],
     loaders: [
       // Babel is a transpiler that supports ES6 and JSX
       { test: /\.js$/, exclude: /(node_modules)|(bootstrap.*\.js)/, loaders: ['babel-loader']}
