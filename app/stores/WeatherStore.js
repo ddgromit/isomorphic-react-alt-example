@@ -20,7 +20,7 @@ class WeatherStore {
   }
 
   onTemperatureError() {
-    this.error = "Temperature Error";
+    this.error = 'Temperature Error';
   }
 
   onLoadingTemperature() {

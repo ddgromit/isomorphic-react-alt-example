@@ -1,5 +1,4 @@
 import alt from '../alt';
-import fetchTemperature from '../fetchers/WeatherFetcher';
 import WeatherStore from '../stores/WeatherStore';
 
 class WeatherActions {

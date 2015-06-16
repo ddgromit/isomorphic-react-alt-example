@@ -9,4 +9,8 @@ export default class Counter extends React.Component {
       </div>
     );
   }
+}
+
+Counter.propTypes = {
+  count: React.PropTypes.number
 };

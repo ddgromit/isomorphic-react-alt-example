@@ -8,8 +8,12 @@ export default class ErrorBar extends React.Component {
           {this.props.message}
         </div>
       );
-    } else {
-      return (<div></div>);
     }
+
+    return (<div></div>);
   }
+}
+
+ErrorBar.propTypes = {
+  message: React.PropTypes.string
 };

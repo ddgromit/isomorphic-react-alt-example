@@ -9,6 +9,6 @@ export default {
 
     success: WeatherActions.loadTemperature,
     error: WeatherActions.temperatureError,
-    loading: WeatherActions.loadingTemperature,
+    loading: WeatherActions.loadingTemperature
   }
-}
+};

@@ -8,4 +8,4 @@ export default class Homepage extends React.Component {
       </div>
     );
   }
-};
+}

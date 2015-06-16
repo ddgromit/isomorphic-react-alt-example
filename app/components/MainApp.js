@@ -1,5 +1,4 @@
 import React from 'react';
-import CounterPage from './CounterPage';
 import {RouteHandler, Link} from 'react-router';
 
 export default class MainApp extends React.Component {
@@ -17,4 +16,4 @@ export default class MainApp extends React.Component {
       </div>
     );
   }
-};
+}

@@ -8,4 +8,8 @@ export default class TemperatureGauge extends React.Component {
       </div>
     );
   }
+}
+
+TemperatureGauge.propTypes = {
+  temp: React.PropTypes.number
 };

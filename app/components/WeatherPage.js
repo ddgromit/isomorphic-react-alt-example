@@ -2,7 +2,6 @@ import React from 'react';
 import _ from 'lodash';
 
 import TemperatureGauge from './TemperatureGauge';
-import fetchTemperature from '../fetchers/WeatherFetcher';
 import ErrorBar from './ErrorBar';
 
 import WeatherStore from '../stores/WeatherStore';
@@ -35,12 +34,13 @@ export default class WeatherPage extends React.Component {
 
 
   render() {
+    let gauge;
     if (this.state.error) {
-      var gauge = <ErrorBar message={this.state.error} />;
+      gauge = <ErrorBar message={this.state.error} />;
     } else if (this.state.loading) {
-      var gauge = (<div>Loading Temperature...</div>);
+      gauge = (<div>Loading Temperature...</div>);
     } else {
-      var gauge = <TemperatureGauge temp={this.state.temp} />;
+      gauge = <TemperatureGauge temp={this.state.temp} />;
     }
     return (
       <div>
@@ -49,4 +49,4 @@ export default class WeatherPage extends React.Component {
       </div>
     );
   }
-};
+}
