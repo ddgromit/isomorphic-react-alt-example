@@ -10,7 +10,9 @@ export default class MainApp extends React.Component {
         <br />
         <Link to="counter">Counter</Link>
         <br />
-        <Link to="weather">Weather</Link>
+        <Link to="weather" params={{ zip: 94110 }}>Weather SF</Link>
+        <br />
+        <Link to="weather" params={{ zip: 10010 }}>Weather NYC</Link>
         <hr />
         <RouteHandler />
       </div>

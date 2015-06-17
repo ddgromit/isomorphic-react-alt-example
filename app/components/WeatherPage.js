@@ -17,11 +17,14 @@ export default class WeatherPage extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: this is clearly the wrong way to load this.  Move to
-    // data sources. Ideal spot is componentWillMount, but then the server will
-    // try to call it.  componentDidMount is too late in the lifecycle
     WeatherStore.listen(this.onWeatherData);
-    WeatherActions.requestTemperature(94110);
+
+    // On the clientside, make a request for data when the page loads
+    WeatherActions.requestTemperature(this.props.params.zip);
+  }
+  componentWillReceiveProps(nextProps) {
+    // When the URL changes, ask for weather data for the new zip
+    WeatherActions.requestTemperature(nextProps.params.zip);
   }
 
   componentWillUnmount() {
@@ -44,9 +47,13 @@ export default class WeatherPage extends React.Component {
     }
     return (
       <div>
-        <h2>Weather</h2>
+        <h2>Weather ({this.props.params.zip})</h2>
         { gauge }
       </div>
     );
   }
 }
+
+WeatherPage.propTypes = {
+  params: React.PropTypes.object
+};

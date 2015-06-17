@@ -9,7 +9,7 @@ let routes = (
   <Route name="main" path="/" handler={MainApp}>
     <DefaultRoute handler={HomePage} name="home" />
     <Route name="counter" path="counter" handler={CounterPage} />
-    <Route name="weather" path="weather" handler={WeatherPage} />
+    <Route name="weather" path="weather/:zip" handler={WeatherPage} />
   </Route>
 );
 
